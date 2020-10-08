@@ -1,22 +1,28 @@
 #!/bin/bash -x
 
-isfullTime=1
-ispartTime=2
-empRatePerHour=20
-randomcheck=$((RANDOM%3))
+IS_FULL_TIME=1
+IS_PART_TIME=2
+totalsalary=0
+empRatePerhr=20
+numworkingdays=20
 
-case $randomcheck in
-       $isfullTime)
-         emphrs=8
-            ;;
-       $ispartTime)
-         emphrs=4
-            ;;
-       *)
-         emphrs=0
-            ;;
-esac
+for (( i=1; i<=$numworkingdays; i++ ))
+do
+       empcheck=$((RANDOM%3))
+           case $empcheck in
+                 $IS_FULL_TIME )
+                     empHrs=8
+                       ;;
+                 $IS_PART_TIME )
+                     empHrs=4
+                       ;;
+                 * )
+                     empHrs=0
+                       ;;
+           esac
 
-salary=$((($empRatePerHour*$emphrs)))
-echo "yr one day salary is : " $salary
+       salary=$(($empHrs*$empRatePerhr))
+       totalsalary=$(($totalsalary+$salary))
+done
+
 
