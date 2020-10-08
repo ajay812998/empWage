@@ -5,17 +5,18 @@ ispartTime=2
 empRatePerHour=20
 randomcheck=$((RANDOM%3))
 
-if [ $randomcheck -eq $isfullTime ]
-then
-       empHrs=10
-elif [ $randomcheck -eq $ispartTime ]
-then
-       empHrs=8
-else
-       empHrs=0
-fi
+case $randomcheck in
+       $isfullTime)
+         emphrs=8
+            ;;
+       $ispartTime)
+         emphrs=4
+            ;;
+       *)
+         emphrs=0
+            ;;
+esac
 
-salary=$((($empRatePerHour*$empHrs)))
+salary=$((($empRatePerHour*$emphrs)))
 echo "yr one day salary is : " $salary
-
 
