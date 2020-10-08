@@ -9,6 +9,8 @@ MAX_HPURS_IN_MONTHS=40
 totalEmpHours=0
 totalWorkingDays=0
 
+declare -A dailyWages
+
 function getWorkingHours(){
        case $1 in
                $IS_FULL_TIME )
@@ -23,17 +25,20 @@ function getWorkingHours(){
        esac
        echo $empHrs
 }
-function getEmpWage() {
-      local empHr=$1
-      echo $(($empHr*$EMP_RATE_PER_HOUR))
-}
 
+function getEmpWage(){
+       oneDayHrs=$1
+       echo $(($oneDayHrs*$EMP_RATE_PER_HOUR))
+}
 while [[ $totalEmpHours -lt $MAX_HPURS_IN_MONTHS && $totalWorkingDays -lt $NUM_OF_WORKING_DAYS ]]
 do
        ((totalWorkingDays++))
        empHours=$( getWorkingHours $((RANDOM%3)) )
        totalEmpHours=$(($totalEmpHours+$empHours))
-       dailyWage[$totalWorkingDays]="(getEmpWage $empHrs)"
+       dailyWages[$totalWorkingDays]=$( getEmpWage $empHours )
 done
        totalSalary=$(($EMP_RATE_PER_HOUR*$totalEmpHours))
-       echo ${dailyWage[@]}
+       echo "total salary is : $totalSalary"
+       echo "Daily wages : ${dailyWages[@]}"
+       echo "Daily index : ${!dailyWages[@]}"
+
